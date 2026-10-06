@@ -63,14 +63,31 @@ def patch_dialog(vendor_dir):
     return names[0], hashlib.sha1(js.encode()).hexdigest()[:8]
 
 
+def partition_csv():
+    """the partition table the firmware is built with: sdkconfig.defaults'
+    CONFIG_PARTITION_TABLE_CUSTOM_FILENAME (partitions_muma.csv on the one-button
+    board), else upstream's partitions.csv"""
+    name = "partitions.csv"
+    try:
+        for line in open(os.path.join(ROOT, "firmware", "sdkconfig.defaults")):
+            m = re.match(r'CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="([^"]+)"', line.strip())
+            if m:
+                name = m.group(1)
+    except OSError:
+        pass
+    return os.path.join(ROOT, "firmware", name)
+
+
 def model_offset():
-    """the 'model' row of firmware/partitions.csv -> int offset"""
-    with open(os.path.join(ROOT, "firmware", "partitions.csv")) as f:
+    """the fish model's partition (data, subtype 0x40: 'model' upstream, 'llm'
+    on the one-button board, where 'model' is the optional voice models) -> int offset"""
+    path = partition_csv()
+    with open(path) as f:
         for line in f:
-            cols = [c.strip() for c in line.split(",")]
-            if len(cols) >= 4 and cols[0] == "model":
+            cols = [c.strip() for c in line.split("#")[0].split(",")]
+            if len(cols) >= 4 and cols[1] == "data" and cols[2].lower() == "0x40":
                 return int(cols[3], 0)
-    sys.exit("partitions.csv: no 'model' partition")
+    sys.exit(f"{path}: no data/0x40 partition for the fish model")
 
 
 # The tank's save lives in NVS (firmware/partitions.csv: nvs at 0x9000, 0x6000
@@ -100,8 +117,9 @@ def check_nvs_untouched(parts, ptable):
         if off < NVS_OFFSET + NVS_SIZE and end > NVS_OFFSET:
             sys.exit(f"{pub}: 0x{off:x}..0x{end:x} overlaps nvs 0x{NVS_OFFSET:x}..0x{NVS_OFFSET + NVS_SIZE:x} "
                      "- installing it would overwrite the keeper's tank")
-    if "model" not in rows or rows["model"][2] != model_offset():
-        sys.exit(f"{ptable}: its model row disagrees with firmware/partitions.csv - rebuild the firmware")
+    fish = [r for r in rows.values() if r[:2] == (1, 0x40)]
+    if len(fish) != 1 or fish[0][2] != model_offset():
+        sys.exit(f"{ptable}: its fish-model row disagrees with {os.path.basename(partition_csv())} - rebuild the firmware")
 
 
 def release_version():
@@ -174,7 +192,7 @@ def main():
     build = {"chipFamily": "ESP32-S3",
              "parts": [{"path": f"firmware/{pub}", "offset": off} for off, _, pub in parts]}
     manifest = {
-        "name": "Pocket Tank",
+        "name": "Pocket Tank one-button edition",
         "version": version,
         "built": date,                       # read by the page (ESP Web Tools ignores extra keys)
         "new_install_prompt_erase": False,
@@ -183,7 +201,7 @@ def main():
         "builds": [build],
     }
     json.dump(manifest, open(os.path.join(out, "manifest.json"), "w"), indent=2)
-    erase = dict(manifest, name="Pocket Tank (fresh)", new_install_prompt_erase=True)
+    erase = dict(manifest, name="Pocket Tank one-button edition (fresh)", new_install_prompt_erase=True)
     del erase["never_erase"]                 # the "start over" button: the dialog asks, checkbox off by default
     json.dump(erase, open(os.path.join(out, "manifest-erase.json"), "w"), indent=2)
     # Apache / LiteSpeed hosts sometimes refuse .bin or serve .json as text;
