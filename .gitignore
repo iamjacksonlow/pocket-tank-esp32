@@ -1,0 +1,28 @@
+model/llama2.c/
+model/out/*
+!model/out/.gitkeep
+__pycache__/
+.DS_Store
+sim/lvgl/
+sim/build/
+sim/fishsim
+model/runw
+firmware/ref/
+model/runq4
+q4_host
+firmware/host_test/q4_host
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/dependencies.lock
+firmware/managed_components/
+firmware/build_qemu/
+
+# browser installer output (tools/make_installer.py) - upload this folder
+installer/dist/
+firmware/host_test/audio_host
+firmware/components/esp-sr/
+firmware/components/espressif__esp-dsp/
+
+# your own key / stops / area (copy main/user_config.example.h)
+firmware/main/user_config.h
