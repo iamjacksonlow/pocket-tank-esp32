@@ -16,6 +16,10 @@ This is a port of [mediacutlet/pocket-tank](https://github.com/mediacutlet/pocke
 
 *Screens rendered by the board's own drawing code, with example stops.*
 
+## Install from your browser
+
+The quickest way: open **https://iamjacksonlow.github.io/pocket-tank-esp32/** in Chrome or Edge, plug in the board and click Install. No tools needed. That ready-made build shows two example bus stops in the city; to show the stops around your home, follow **Set it up** below and build it yourself.
+
 ## What you need
 
 - **The board:** Spotpear "ESP32-S3 AI DeepSeek XiaoZhi DouBao 1.54 inch LCD" (ESP32-S3 N16R8: 16 MB flash, 8 MB PSRAM; ST7789 240×240 LCD; ES8311 audio; one BOOT button; battery). Other ESP32-S3 boards with 16 MB flash and PSRAM can work, but the screen and pin setup in `display_port_st7789.c` is for this one.
