@@ -1,0 +1,18 @@
+# pocket-tank preflight 2026-09-29_1229 on /dev/cu.usbmodem101
+I (499642) batlog: 2 samples (h:mm since the first | SoC | VBAT | bright | state | mA since previous)
+I (499643) batlog:     0:00 |  75% | 3911 mV |   0 | asleep | bed
+I (499647) batlog:    25:15 |  75% | 4048 mV | 153 | awake  | boot      0.0 mA
+I (499654) batlog:   asleep: 25.3 h, 0.0 mAh -> 0.00 mA average
+I (499659) batlog:   (SoC is 1% = 2 mAh; short awake windows are coarse, a night is not)
+I (503620) director: 0 mem    elder age 30.9h size 1.24 hunger 4.4 energy 7.0 stress 6.8 curiosity 0.0 trust 7.0 ms f3f  dart_play at 118,191
+I (503623) director: 1 lira   elder age 30.9h size 1.45 hunger 3.4 energy 10.0 stress 5.2 curiosity 0.0 trust 7.0 ms f3f  rest at 109,81
+I (503635) director: 2 jake   elder age 28.8h size 1.09 hunger 0.8 energy 4.8 stress 6.8 curiosity 7.1 trust 4.6 ms f3f  follow_friend at 148,102
+I (503648) director: pellets 5 | trickle on | ravenous 0 | day idle 31s | veg 0.83 0.77 0.86 | algae cells 193/644 | courting no | arrival -
+I (503660) director: sand dollars 271 (earned 311) | shop: plant | colonies 161 | 499.0 in trimmed
+I (503669) director: bed 0 fronds (x from 19, pitch 12): 0.91 0.90 0.89 0.88 0.87 0.85 0.84 0.83 0.82 0.81 0.79 0.78 0.77 0.76 0.75
+I (503680) director: bed 1 fronds (x from 376, pitch 12): 0.80 0.78 0.77 0.76 0.75
+I (503688) director: bed 2 fronds (x from 278, pitch 12): 0.91 0.89 0.88 0.87 0.86 0.85 0.83 0.82
+I (503696) director: bed 3 leaves (x from 355, pitch 14): 0.79 0.78 0.76 0.75
+I (503703) director: plant placed: centre x 376 (the keeper's), depth IN FRONT of the fish
+I (503711) director: nursery bed 2 (a bed >= 0.12) | parked real tank: no (this IS the real tank)
+I (503720) director: battery 78% charging, VBAT 4075 mV | brightness 153/255 (level 60%)
