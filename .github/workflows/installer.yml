@@ -1,0 +1,61 @@
+# Browser installer, published to GitHub Pages on every push to main that
+# touches the firmware, the shared tank code, the model or the installer:
+# build the firmware with the same ESP-IDF the project uses, assemble
+# installer/dist (page + manifest + binaries + vendored ESP Web Tools) and
+# deploy it. Pages serves HTTPS with open CORS, so a page on another site
+# can point its <esp-web-install-button> at this manifest and always offer
+# the firmware of the latest push.
+name: installer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firmware/**"
+      - "common/**"
+      - "model/out/**"
+      - "installer/**"
+      - "tools/make_installer.py"
+      - ".github/workflows/installer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # git describe wants the tags
+      - name: Build the firmware (ESP-IDF v5.4.1, esp32s3)
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: v5.4.1
+          target: esp32s3
+          path: firmware
+      - name: Assemble the installer
+        run: |
+          python3 tools/make_installer.py --build-dir firmware/build --out installer/dist
+          touch installer/dist/.nojekyll
+          ls -la installer/dist installer/dist/firmware
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: installer/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
