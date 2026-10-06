@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f8f8">
+<title>Install Pocket Tank</title>
+<meta name="description" content="Install Pocket Tank on a Waveshare ESP32-S3-Touch-AMOLED-1.8 from your browser. Nothing to download.">
+<link rel="canonical" href="https://stratobuilds.com/pocket-tank-installer/">
+<link rel="icon" href="https://stratobuilds.com/wp-content/uploads/2025/06/strato-builds-favicon-64.png" sizes="64x64">
+<link rel="apple-touch-icon" href="https://stratobuilds.com/wp-content/uploads/2025/06/strato-builds-favicon-64.png">
+<!-- social sharing: the featured image (1280x720) and the card text -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StratoBuilds">
+<meta property="og:url" content="https://stratobuilds.com/pocket-tank-installer/">
+<meta property="og:title" content="Install Pocket Tank from your browser">
+<meta property="og:description" content="A tiny AI runs a fish tank on an ESP32-S3 board. Plug it in, click Install, done. Nothing to download.">
+<meta property="og:image" content="https://stratobuilds.com/wp-content/uploads/2026/09/pt-installer.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:image:alt" content="Pocket Tank running on the Waveshare ESP32-S3 AMOLED board">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Install Pocket Tank from your browser">
+<meta name="twitter:description" content="A tiny AI runs a fish tank on an ESP32-S3 board. Plug it in, click Install, done. Nothing to download.">
+<meta name="twitter:image" content="https://stratobuilds.com/wp-content/uploads/2026/09/pt-installer.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* the stratobuilds.com system: #f8f8f8 page, white / #222 / lavender cards at
+     10px, Inter Tight text, Roboto Mono uppercase pills, the red button */
+  :root {
+    --page: #f8f8f8; --card: #ffffff; --dark: #222222; --ink: #0a0a0a; --text: #3f3f3f;
+    --muted: #666666; --lavender: #d7e0f2; --red: #ff0000; --pill: rgba(10, 10, 10, .06);
+    --pill-dark: rgba(255, 255, 255, .2); --rule: #f0f0f0;
+    --sans: "Inter Tight", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+    --mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--page); }
+  body { margin: 0; background: var(--page); color: var(--text);
+         font: 400 17.5px/1.48 var(--sans); letter-spacing: .036em; -webkit-font-smoothing: antialiased; }
+  main { max-width: 780px; margin: 0 auto; padding: 12px 12px 40px; display: flex; flex-direction: column; gap: 10px; }
+  .card { background: var(--card); border: 1.5px solid var(--page); border-radius: 10px; padding: 22px 22px 20px; }
+  .card.dark { background: var(--dark); color: #fff; }
+  .card.lavender { background: var(--lavender); }
+  .card.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
+  .card.header img { display: block; width: 200px; max-width: 55%; height: auto; }
+  h1, h2 { font-family: var(--sans); color: var(--ink); margin: 0 0 12px; }
+  h1 { font-size: 48px; font-weight: 500; line-height: 1; letter-spacing: -.01em; }
+  h2 { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: .01em; }
+  .dark h1, .dark h2, .dark p { color: #fff; }
+  .lede { font-size: 20px; letter-spacing: .036em; margin: 0; }
+  p { margin: 0 0 20px; }
+  p:last-child { margin-bottom: 0; }
+  .pill { display: inline-block; font: 500 11px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase;
+          color: var(--ink); background: var(--pill); border-radius: 10px; padding: 8px 10px; white-space: nowrap; }
+  .dark .pill { color: #fff; background: var(--pill-dark); }
+  ol { margin: 0 0 20px; padding: 0; list-style: none; counter-reset: step; }
+  ol > li { position: relative; padding: 4px 0 4px 44px; counter-increment: step; margin-bottom: 8px; }
+  ol > li::before { content: counter(step); position: absolute; left: 0; top: 4px; width: 30px; height: 30px;
+                  border-radius: 10px; background: var(--ink); color: #fff; font: 500 12px/30px var(--mono); text-align: center; }
+  li b, p b { color: var(--ink); font-weight: 500; }
+  ol ul { margin: 8px 0 0; padding-left: 18px; }
+  ol ul li { margin-bottom: 4px; }
+  ul.how { margin: 0; padding-left: 18px; }
+  ul.how li { margin-bottom: 6px; }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: rgba(10, 10, 10, .3); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--ink); }
+  .dark a { color: #fff; text-decoration-color: rgba(255, 255, 255, .4); }
+  code { font: 500 .8em/1 var(--mono); background: var(--pill); border-radius: 6px; padding: 3px 7px; letter-spacing: 0; white-space: nowrap; }
+  kbd { font: 500 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: #fff; background: var(--dark);
+        border-radius: 6px; padding: 4px 7px; white-space: nowrap; }
+  .install { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 16px; margin: 4px 0 16px; }
+  /* the trigger ESP Web Tools renders in its "activate" slot: the site's button */
+  esp-web-install-button button {
+    font: 500 14px/17px var(--sans); letter-spacing: .01em; color: #fff; background: var(--red);
+    border: 0; border-radius: 10px; padding: 20px 30px; cursor: pointer; transition: filter .15s;
+  }
+  esp-web-install-button button:hover { filter: brightness(.9); }
+  /* the "start over" trigger: the same slot, the dark card's color, smaller */
+  esp-web-install-button.fresh button { background: var(--dark); padding: 14px 20px; }
+  esp-web-install-button [slot="unsupported"], esp-web-install-button [slot="not-allowed"] {
+    display: inline-block; font-size: 14px; font-weight: 500; color: var(--ink); background: rgba(255, 0, 0, .08);
+    border-radius: 10px; padding: 14px 16px; max-width: 420px;
+  }
+  .meta { color: var(--muted); font-size: 14px; }
+  .fine { color: var(--muted); font-size: 15px; }
+  details { border-top: 1.5px solid var(--rule); padding: 12px 0; }
+  details:last-of-type { padding-bottom: 0; }
+  summary { cursor: pointer; color: var(--ink); font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font: 500 18px/1 var(--mono); color: var(--muted); flex: none; }
+  details[open] summary::after { content: "\2013"; }
+  details p { margin: 12px 0 4px; font-size: 16px; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 20px; padding: 14px 20px;
+          font: 500 10px/1.45 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .foot a { color: var(--muted); text-decoration: none; }
+  .foot a:hover { color: var(--ink); }
+  .foot span + span { margin-left: 16px; }
+  @media (max-width: 560px) {
+    h1 { font-size: 36px; } h2 { font-size: 26px; } .lede { font-size: 18px; }
+    .card { padding: 18px 16px 16px; }
+  }
+</style>
+<script type="module" src="{{VENDOR}}/install-button.js"></script>
+</head>
+<body>
+<main>
+  <header class="card header">
+    <a href="https://stratobuilds.com/" aria-label="StratoBuilds"><img src="https://stratobuilds.com/wp-content/uploads/2025/06/strato-builds-logo-horizontal-400x89.png" alt="StratoBuilds" width="200" height="45"></a>
+    <span class="pill">Pocket Tank &middot; Installer</span>
+  </header>
+
+  <section class="card dark">
+    <h1>Install Pocket Tank</h1>
+    <p class="lede">A tiny fish tank where a small AI decides what the fish do, all on the board. Install it from this page. Update it the same way.</p>
+  </section>
+
+  <section class="card">
+    <h2>Install</h2>
+    <ol>
+      <li><b>Plug the board into your computer.</b> Use a USB-C cable that carries data. Some cables only charge.</li>
+      <li><b>Click Install.</b> Pick <code>USB JTAG/serial debug unit</code> from the list. On Linux it may say <code>ttyACM0</code>.</li>
+      <li><b>Wait a minute or two.</b> When it says <em>Installation complete</em>, the board restarts by itself.
+        <ul>
+          <li><b>New board:</b> you get a fresh tank with two baby fish.</li>
+          <li><b>Already have a tank:</b> it comes back just as you left it.</li>
+        </ul>
+      </li>
+    </ol>
+    <div class="install">
+      <esp-web-install-button manifest="{{MANIFEST}}">
+        <button slot="activate">Install Pocket Tank</button>
+        <span slot="unsupported">This browser can't talk to USB devices. Use Chrome or Edge on a computer.</span>
+        <span slot="not-allowed">Open this page with https:// to install.</span>
+      </esp-web-install-button>
+      <span class="meta">Chrome or Edge on a computer &middot; version <code data-version>{{VERSION}}</code></span>
+    </div>
+    <p><b>Updating?</b> Use the same button. It never erases your tank: your fish, their names, badges, sand dollars and decorations all stay.</p>
+    <p class="fine">The pop-up says <em>Install</em> even when you're updating. That's normal. If the screen is dark, the tank is asleep: press <kbd>PWR</kbd> firmly to wake it first, or it won't show up in the list.</p>
+  </section>
+
+  <section class="card">
+    <h2>Start over</h2>
+    <p>To reset your tank, you don't need this page. Hold <kbd>BOOT</kbd>, tap the screen, and answer YES. You get two new baby fish.</p>
+    <p>Board not starting, or want a clean wipe? This button erases everything, then installs fresh. <b>Your tank will be gone.</b></p>
+    <div class="install">
+      <esp-web-install-button class="fresh" manifest="{{MANIFEST_ERASE}}">
+        <button slot="activate">Erase the board and install fresh</button>
+        <span slot="unsupported">This browser can't talk to USB devices. Use Chrome or Edge on a computer.</span>
+        <span slot="not-allowed">Open this page with https:// to install.</span>
+      </esp-web-install-button>
+    </div>
+    <p class="fine">In the pop-up, tick <em>Erase device</em>. If you leave it unticked, it just installs like the red button.</p>
+  </section>
+
+  <section class="card">
+    <h2>Which board?</h2>
+    <p><span class="pill">Supported</span></p>
+    <p><b>Waveshare ESP32-S3-Touch-AMOLED-1.8</b>, version V1 or V2. About $35 with the screen and a battery.</p>
+    <p class="fine">Other boards won't work yet. The installer may still run on them, but the screen will stay blank.</p>
+  </section>
+
+  <section class="card">
+    <h2>Having trouble?</h2>
+    <details>
+      <summary>My board isn't in the list</summary>
+      <p>If the screen is dark, the tank is asleep. Press <kbd>PWR</kbd> firmly to wake it, then try again.</p>
+      <p>Still missing? Hold <kbd>BOOT</kbd> while you plug in the cable. That always makes it show up.</p>
+      <p>Also try another cable, and plug straight into the computer, not a hub.</p>
+    </details>
+    <details>
+      <summary>The install fails or stops partway</summary>
+      <p>Close anything else using the board, like a serial monitor or this page in another tab. Unplug, plug back in, and click Install again.</p>
+      <p>Still failing? Hold <kbd>BOOT</kbd> while you plug in, then try again. Your tank is safe either way.</p>
+    </details>
+    <details>
+      <summary>Linux: "permission denied"</summary>
+      <p>Run <code>sudo usermod -aG dialout $USER</code>, then log out and back in. (On some systems the group is <code>uucp</code>.)</p>
+    </details>
+    <details>
+      <summary>Windows: it shows up but won't connect</summary>
+      <p>Windows 10 and 11 already have the driver. If Device Manager shows a warning on the board, install Espressif's USB driver or try another USB port.</p>
+    </details>
+    <details>
+      <summary>Back up my tank first (optional, uses a terminal)</summary>
+      <p>Updates keep your tank, but if you'd like a copy: install esptool (<code>pip install esptool</code>) and wake the tank. To save it: <code>esptool.py --chip esp32s3 read_flash 0x9000 0x6000 my-tank.bin</code>. To put it back: <code>esptool.py --chip esp32s3 write_flash 0x9000 my-tank.bin</code></p>
+    </details>
+    <details>
+      <summary>What gets installed?</summary>
+      <p>The app, the 7.5 MB AI model, and two small startup files. Your tank's save sits in a separate spot the installer never touches. Only the erase button clears it.</p>
+      <p>Everything runs on the board. Nothing is sent anywhere.</p>
+    </details>
+  </section>
+
+  <section class="card lavender">
+    <h2>After it starts</h2>
+    <p>A new tank opens with a quick setup: place the bubbles, then name your two fish and pick their colors. Then:</p>
+    <ul class="how">
+      <li><b>Feed:</b> tap the water.</li>
+      <li><b>Say hi:</b> hold a finger on the glass and they'll come over.</li>
+      <li><b>Clean:</b> drag across the glass to wipe off algae.</li>
+      <li><b>Trim:</b> swipe sideways through the grass.</li>
+      <li><b>Light:</b> double-tap the glass.</li>
+      <li><b>Sleep:</b> press <kbd>PWR</kbd>. Press it firmly again to wake.</li>
+      <li><b>Reset:</b> hold <kbd>BOOT</kbd> and tap the glass.</li>
+    </ul>
+  </section>
+
+  <footer class="card foot">
+    <div><span>&copy; 2026 StratoBuilds</span><span>Firmware <span data-version>{{VERSION}}</span></span><span>Built <span data-built>{{DATE}}</span></span></div>
+    <div><span><a href="https://github.com/mediacutlet/pocket-tank">Source on GitHub</a></span><span><a href="https://esphome.github.io/esp-web-tools/">ESP Web Tools</a></span></div>
+  </footer>
+</main>
+<script>
+  /* The page may live on a different host than the firmware it installs (the
+     site's copy points at the GitHub Pages manifest): show the version and
+     build date of what the button will actually flash. */
+  (async () => {
+    try {
+      const url = document.querySelector('esp-web-install-button').getAttribute('manifest');
+      const m = await fetch(url, { cache: 'no-store' }).then(r => r.json());
+      if (m.version) document.querySelectorAll('[data-version]').forEach(e => e.textContent = m.version);
+      if (m.built) document.querySelectorAll('[data-built]').forEach(e => e.textContent = m.built);
+    } catch (e) { /* offline or blocked: the stamped values stay */ }
+  })();
+</script>
+</body>
+</html>
