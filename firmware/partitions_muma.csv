@@ -1,0 +1,7 @@
+# pocket-tank on the Spotpear 1.54in muma (16 MB flash): app + fish brain + voice models
+# Name,     Type, SubType, Offset,   Size,     Flags
+nvs,        data, nvs,     0x9000,   0x6000,
+phy_init,   data, phy,     0xf000,   0x1000,
+factory,    app,  factory, 0x10000,  0x300000,
+llm,        data, 0x40,    0x310000, 0x740000,
+model,      data, spiffs,  0xA50000, 0x5B0000,

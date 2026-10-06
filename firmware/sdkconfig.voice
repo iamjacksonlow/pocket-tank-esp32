@@ -1,0 +1,13 @@
+# Optional, experimental: offline voice commands (esp-sr WakeNet "computer" +
+# MultiNet7 English). It never recognised speech reliably on this board's mic,
+# so it is off by default. To try it:
+#   ./fetch_voice_deps.sh
+#   idf.py -D SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.voice" fullclean build
+# and also flash build/srmodels/srmodels.bin at 0xA50000.
+CONFIG_POCKET_TANK_VOICE=y
+CONFIG_MODEL_IN_FLASH=y
+CONFIG_SR_WN_WN9_COMPUTER_TTS=y
+CONFIG_SR_MN_CN_NONE=y
+CONFIG_SR_MN_EN_MULTINET7_QUANT=y
+CONFIG_SR_NSN_WEBRTC=y
+CONFIG_SR_VADN_WEBRTC=y
